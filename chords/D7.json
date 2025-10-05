@@ -1,0 +1,14 @@
+{
+  "name": "D7",
+  "voicings": {
+    "r": {
+      "inversion": "second",
+      "fingering": {
+        "G": {"fret": 2, "text": "5"},
+        "C": {"fret": 2, "text": "1"},
+        "E": {"fret": 2, "text": "3"},
+        "A": {"fret": 3, "text": "b7"}
+      }
+    }
+  }
+}

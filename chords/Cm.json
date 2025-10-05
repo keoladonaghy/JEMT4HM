@@ -1,0 +1,14 @@
+{
+  "name": "C Minor",
+  "voicings": {
+    "r": {
+      "inversion": "second",
+      "fingering": {
+        "G": {"fret": 0, "text": "5"},
+        "C": {"fret": 3, "text": "b3"},
+        "E": {"fret": 3, "text": "5"},
+        "A": {"fret": 3, "text": "1"}
+      }
+    }
+  }
+}

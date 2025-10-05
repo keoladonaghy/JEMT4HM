@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JEMT4 - Hawaiian Music Theory</title>
+    <script src="https://unpkg.com/tone@latest/build/Tone.js"></script>
+    <script src="js/i18n.js"></script>
+    <style>
+        /* ========================================
+           JEMT4 Theme - Root Variables
+           ======================================== */
+        :root {
+            /* Colors */
+            --bg-primary: #f5f5f5;
+            --bg-secondary: white;
+            --bg-accent: #f0f0f0;
+            
+            --text-primary: #333;
+            --text-secondary: #555;
+            --text-muted: #666;
+            
+            --border-light: #ccc;
+            --border-medium: #a0a0a0;
+            --border-dark: #333;
+            
+            --shadow-light: 0 2px 4px rgba(0,0,0,0.1);
+            --shadow-medium: 0 4px 8px rgba(0,0,0,0.15);
+            
+            /* Fretboard colors */
+            --fretboard-nut: #8B4513;
+            --fretboard-nut-stroke: #654321;
+            --fretboard-fret: #C0C0C0;
+            --fretboard-fret-stroke: #a0a0a0;
+            --fretboard-string: #FFD700;
+            --fretboard-bg: #DEB887;
+            --fretboard-marker: #8B4513;
+            
+            /* Spacing - Reduced for tighter layout */
+            --spacing-xs: 3px;
+            --spacing-sm: 6px;
+            --spacing-md: 10px;
+            --spacing-lg: 12px;
+            --spacing-xl: 16px;
+            
+            /* Border radius */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            
+            /* Typography */
+            --font-family: Arial, sans-serif;
+            --font-size-sm: 10px;
+            --font-size-base: 12px;
+            --font-size-md: 14px;
+            --font-size-lg: 16px;
+            
+            /* Responsive breakpoints */
+            --breakpoint-mobile: 600px;
+            --breakpoint-tablet: 768px;
+            --breakpoint-desktop: 1024px;
+        }
+        
+        /* ========================================
+           Base Styles
+           ======================================== */
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+        
+        /* ========================================
+           Layout Components
+           ======================================== */
+        .content-wrapper {
+            margin: var(--spacing-lg);
+            max-width: 100%;
+        }
+        
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+        }
+        
+        .controls-row {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            margin-bottom: var(--spacing-lg);
+            flex-wrap: wrap;
+        }
+        
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-lg);
+            max-width: 100%;
+            margin: 0 auto;
+            min-height: 60vh;
+        }
+        
+        .fretboard-container {
+            background-color: var(--bg-secondary);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-light);
+            display: block;
+            margin: 0 auto;
+            width: fit-content;
+            transition: box-shadow 0.2s ease;
+        }
+        
+        .fretboard-container:hover {
+            box-shadow: var(--shadow-medium);
+        }
+        
+        /* ========================================
+           Form Controls
+           ======================================== */
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+            min-width: 120px;
+        }
+        
+        .control-group label {
+            font-size: var(--font-size-md);
+            font-weight: bold;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+        
+        select {
+            padding: var(--spacing-sm) 12px;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            font-size: var(--font-size-md);
+            font-family: var(--font-family);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            min-width: 100px;
+            cursor: pointer;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: var(--text-secondary);
+            box-shadow: 0 0 0 2px rgba(85, 85, 85, 0.2);
+        }
+        
+        select:hover {
+            border-color: var(--text-secondary);
+        }
+        
+        /* ========================================
+           Button Styles
+           ======================================== */
+        .btn {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            background-color: var(--bg-accent);
+            color: var(--text-primary);
+            font-family: var(--font-family);
+            font-size: var(--font-size-md);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        
+        .btn:hover {
+            background-color: #e8e8e8;
+            border-color: var(--text-secondary);
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        /* ========================================
+           SVG Fretboard Elements
+           ======================================== */
+        .finger-circle {
+            fill: var(--text-primary);
+            stroke: var(--border-dark);
+            stroke-width: 1;
+            transition: fill 0.2s ease;
+        }
+        
+        .finger-circle-open {
+            fill: var(--bg-secondary);
+            stroke: var(--text-primary);
+            stroke-width: 2;
+            transition: stroke 0.2s ease;
+        }
+        
+        .finger-text {
+            fill: var(--bg-secondary);
+            font-family: var(--font-family);
+            font-size: var(--font-size-base);
+            font-weight: bold;
+            text-anchor: middle;
+            dominant-baseline: central;
+            pointer-events: none;
+        }
+        
+        .finger-text-open {
+            fill: var(--text-primary);
+            font-family: var(--font-family);
+            font-size: var(--font-size-base);
+            font-weight: bold;
+            text-anchor: middle;
+            dominant-baseline: central;
+            pointer-events: none;
+        }
+        
+        /* ========================================
+           Typography
+           ======================================== */
+        h1 {
+            text-align: center;
+            color: var(--text-primary);
+            font-size: var(--font-size-base);
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        h2 {
+            color: var(--text-secondary);
+            font-size: var(--font-size-lg);
+            margin: 0;
+            font-weight: 600;
+        }
+        
+        /* ========================================
+           Header Row with Page Title & Settings
+           ======================================== */
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+            position: relative;
+            padding: var(--spacing-md) 0;
+        }
+        
+        .page-title {
+            margin: 0;
+            color: var(--text-primary);
+            font-size: var(--font-size-xl);
+            font-weight: 600;
+        }
+        
+        .settings-btn {
+            padding: var(--spacing-sm);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: var(--font-size-lg);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+        
+        .settings-btn:hover {
+            background-color: var(--bg-accent);
+            border-color: var(--text-secondary);
+            transform: rotate(45deg);
+        }
+        
+        /* ========================================
+           Responsive Design
+           ======================================== */
+        @media (max-width: 600px) {
+            .content-wrapper {
+                margin: var(--spacing-sm);
+            }
+            
+            .header-row {
+                margin-bottom: var(--spacing-lg);
+            }
+            
+            .page-title {
+                font-size: var(--font-size-lg);
+            }
+            
+            .header-section {
+                flex-direction: column;
+                align-items: stretch;
+                gap: var(--spacing-sm);
+                margin-bottom: var(--spacing-sm);
+            }
+            
+            .controls-row {
+                flex-direction: column;
+                align-items: center;
+                gap: var(--spacing-sm);
+                margin-bottom: var(--spacing-md);
+            }
+            
+            .main-container {
+                gap: var(--spacing-sm);
+                min-height: 50vh;
+            }
+            
+            .fretboard-container {
+                padding: var(--spacing-sm);
+                margin: 0 auto;
+            }
+            
+            .control-group {
+                width: 100%;
+                max-width: 200px;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 200px;
+            }
+            
+            h2 {
+                text-align: center;
+                font-size: var(--font-size-md);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .content-wrapper {
+                margin: var(--spacing-xs);
+            }
+            
+            .fretboard-container {
+                padding: var(--spacing-xs);
+            }
+            
+            .controls-row {
+                gap: var(--spacing-xs);
+            }
+        }
+        
+        /* ========================================
+           Future Navigation Prep
+           ======================================== */
+        .nav-placeholder {
+            /* Reserved space for future navigation */
+            display: none;
+        }
+        
+        .settings-placeholder {
+            /* Reserved space for future settings gear */
+            display: none;
+        }
+        
+        /* ========================================
+           Accessibility
+           ======================================== */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                transition: none !important;
+                animation: none !important;
+            }
+        }
+        
+        /* Focus styles for keyboard navigation */
+        .fretboard-container:focus-within {
+            outline: 2px solid var(--text-secondary);
+            outline-offset: 2px;
+        }
+        
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            :root {
+                --border-light: #000;
+                --text-muted: #000;
+            }
+        }
+    </style>
+</head>
+<body>
+    <img src="images/JEMT4Header.png" alt="JEMT4 - Hawaiian Music Theory" style="width: 100%; height: auto; display: block; margin: 0; padding: 0;">
+    
+    <div class="content-wrapper">
+        <div class="header-row">
+            <h2 class="page-title" data-i18n="instruments.ukulele">ʻUkulele</h2>
+            <!-- Settings gear will be added here by settings.js -->
+        </div>
+        
+        <div class="header-section">
+            <h2 data-i18n="instruments.ukulele">ʻUkulele</h2>
+            <button id="play-button" class="btn" style="display: none;">
+                🔊 <span data-i18n="navigation.playChord">Play Chord</span>
+            </button>
+        </div>
+        
+        <div class="controls-row">
+            <div class="control-group">
+                <label for="root-select" data-i18n="chords.root">Root:</label>
+                <select id="root-select">
+                    <option value="" data-i18n="chords.selectRoot">Select Root</option>
+                    <option value="C">C</option>
+                    <option value="G">G</option>
+                    <option value="F">F</option>
+                    <option value="E">E</option>
+                    <option value="D">D</option>
+                    <option value="A">A</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label for="type-select" data-i18n="chords.type">Type:</label>
+                <select id="type-select">
+                    <option value="" data-i18n="chords.selectType">Select Type</option>
+                    <option value="major" data-i18n="chords.major">Major</option>
+                    <option value="minor" data-i18n="chords.minor">Minor</option>
+                    <option value="7th" data-i18n="chords.seventh">7th</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="main-container">
+        <div class="fretboard-container">
+        <svg width="240" height="324" viewBox="0 0 200 270" xmlns="http://www.w3.org/2000/svg">
+            <!-- Nut -->
+            <rect x="40" y="35" width="112" height="4" fill="#8B4513" stroke="#654321" stroke-width="1"/>
+            
+            <!-- Frets (with specified spacing) -->
+            <rect x="40" y="83" width="112" height="3" fill="#C0C0C0" stroke="#A0A0A0" stroke-width="1"/>
+            <rect x="40" y="127" width="112" height="3" fill="#C0C0C0" stroke="#A0A0A0" stroke-width="1"/>
+            <rect x="40" y="168" width="112" height="3" fill="#C0C0C0" stroke="#A0A0A0" stroke-width="1"/>
+            <rect x="40" y="206" width="112" height="3" fill="#C0C0C0" stroke="#A0A0A0" stroke-width="1"/>
+            <rect x="40" y="241" width="112" height="3" fill="#C0C0C0" stroke="#A0A0A0" stroke-width="1"/>
+            
+            <!-- Strings (G-C-E-A from left to right) -->
+            <line x1="52" y1="39" x2="52" y2="241" stroke="#FFD700" stroke-width="2"/>
+            <line x1="82" y1="39" x2="82" y2="241" stroke="#FFD700" stroke-width="2"/>
+            <line x1="112" y1="39" x2="112" y2="241" stroke="#FFD700" stroke-width="2"/>
+            <line x1="142" y1="39" x2="142" y2="241" stroke="#FFD700" stroke-width="2"/>
+            
+            <!-- Fretboard background -->
+            <rect x="40" y="39" width="112" height="202" fill="#DEB887" opacity="0.3"/>
+            
+            <!-- String labels (tuning) -->
+            <text x="52" y="25" font-family="Arial" font-size="12" fill="#333" text-anchor="middle">G</text>
+            <text x="82" y="25" font-family="Arial" font-size="12" fill="#333" text-anchor="middle">C</text>
+            <text x="112" y="25" font-family="Arial" font-size="12" fill="#333" text-anchor="middle">E</text>
+            <text x="142" y="25" font-family="Arial" font-size="12" fill="#333" text-anchor="middle">A</text>
+            
+            <!-- Fret numbers -->
+            <text x="25" y="61" font-family="Arial" font-size="10" fill="#666" text-anchor="middle">1</text>
+            <text x="25" y="105" font-family="Arial" font-size="10" fill="#666" text-anchor="middle">2</text>
+            <text x="25" y="147" font-family="Arial" font-size="10" fill="#666" text-anchor="middle">3</text>
+            <text x="25" y="187" font-family="Arial" font-size="10" fill="#666" text-anchor="middle">4</text>
+            <text x="25" y="223" font-family="Arial" font-size="10" fill="#666" text-anchor="middle">5</text>
+            
+            <!-- Position markers (dots) -->
+            <circle cx="97" cy="147" r="4" fill="#8B4513" opacity="0.6"/>
+            <circle cx="97" cy="223" r="3" fill="#8B4513" opacity="0.6"/>
+            
+            <!-- Finger circles will be added here dynamically -->
+            <g id="finger-circles"></g>
+        </svg>
+        </div>
+    </div>
+
+    <script>
+        // Audio setup with Tone.js
+        let audioInitialized = false;
+        let ukuleleSynth;
+        
+        // Initialize audio on first user interaction
+        async function initializeAudio() {
+            if (!audioInitialized) {
+                await Tone.start();
+                
+                // Create polyphonic synth with better decay
+                ukuleleSynth = new Tone.PolySynth(Tone.Synth, {
+                    oscillator: {
+                        type: "triangle"
+                    },
+                    envelope: {
+                        attack: 0.01,
+                        decay: 0.8,     // Longer decay for gradual volume drop
+                        sustain: 0.1,   // Lower sustain level
+                        release: 0.5    // Shorter release for clean cutoff
+                    }
+                }).toDestination();
+                
+                // Add some reverb for warmth
+                const reverb = new Tone.Reverb(1.5).toDestination();
+                ukuleleSynth.connect(reverb);
+                
+                audioInitialized = true;
+                console.log('Audio initialized');
+            }
+        }
+
+        // Note calculation from string and fret
+        function calculateNote(stringName, fret) {
+            const stringTuning = {
+                'G': 67, // G4 MIDI note
+                'C': 60, // C4 MIDI note  
+                'E': 64, // E4 MIDI note
+                'A': 69  // A4 MIDI note
+            };
+            
+            const midiNote = stringTuning[stringName] + fret;
+            return Tone.Frequency(midiNote, "midi").toNote();
+        }
+
+        // Play individual note
+        async function playNote(stringName, fret) {
+            await initializeAudio();
+            const note = calculateNote(stringName, fret);
+            ukuleleSynth.triggerAttackRelease(note, "2n");
+        }
+
+        // Play chord with arpeggio then strum
+        async function playChord(chordData) {
+            await initializeAudio();
+            
+            const notes = [];
+            for (const [stringName, fingerData] of Object.entries(chordData)) {
+                if (fingerData) {
+                    const note = calculateNote(stringName, fingerData.fret);
+                    notes.push(note);
+                }
+            }
+            
+            // Phase 1: Arpeggio - each note rings for 750ms before next one
+            notes.forEach((note, index) => {
+                setTimeout(() => {
+                    ukuleleSynth.triggerAttackRelease(note, "750ms", "+0", 0.4);
+                }, index * 750); // 750ms between each note
+            });
+            
+            // Phase 2: Silence all notes, then strum quickly
+            const arpeggioEndTime = notes.length * 750 + 1000; // 1 second after last note
+            
+            setTimeout(() => {
+                // Silence all notes
+                ukuleleSynth.releaseAll();
+                
+                // Wait a brief moment, then strum
+                setTimeout(() => {
+                    notes.forEach((note, index) => {
+                        setTimeout(() => {
+                            ukuleleSynth.triggerAttack(note, "+0", 0.4);
+                        }, index * 80); // Quick 80ms strum
+                    });
+                    
+                    // Stop all notes after 2000ms from start of strum
+                    setTimeout(() => {
+                        ukuleleSynth.releaseAll();
+                    }, 2000);
+                }, 100); // Brief pause before strum
+                
+            }, arpeggioEndTime);
+        }
+
+        // String positions and fret calculations
+        const stringPositions = {
+            'G': 52,
+            'C': 82, 
+            'E': 112,
+            'A': 142
+        };
+        
+        const fretPositions = {
+            0: 25,   // Open string (above nut)
+            1: 61,   // Between nut and fret 1
+            2: 105,  // Between fret 1 and 2
+            3: 147,  // Between fret 2 and 3
+            4: 187,  // Between fret 3 and 4
+            5: 223   // Between fret 4 and 5
+        };
+        
+        function clearFingerCircles() {
+            const container = document.getElementById('finger-circles');
+            container.innerHTML = '';
+        }
+        
+        function addFingerCircles(chordData) {
+            clearFingerCircles();
+            const container = document.getElementById('finger-circles');
+            
+            for (const [stringName, fingerData] of Object.entries(chordData)) {
+                if (fingerData) {
+                    const x = stringPositions[stringName];
+                    const y = fretPositions[fingerData.fret];
+                    
+                    // Determine styling based on fret (open string vs fretted)
+                    const isOpenString = fingerData.fret === 0;
+                    const circleClass = isOpenString ? 'finger-circle-open' : 'finger-circle';
+                    const textClass = isOpenString ? 'finger-text-open' : 'finger-text';
+                    
+                    // Create circle
+                    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    circle.setAttribute('cx', x);
+                    circle.setAttribute('cy', y);
+                    circle.setAttribute('r', '12');
+                    circle.setAttribute('class', circleClass);
+                    
+                    // Create text
+                    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                    text.setAttribute('x', x);
+                    text.setAttribute('y', y);
+                    text.setAttribute('class', textClass);
+                    text.textContent = fingerData.text;
+                    
+                    container.appendChild(circle);
+                    container.appendChild(text);
+                }
+            }
+        }
+        
+        async function loadChordFromJSON(chordFileName) {
+            try {
+                const response = await fetch(`chords/${chordFileName}.json`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const chordData = await response.json();
+                return chordData.voicings.r.fingering; // Load root position by default
+            } catch (error) {
+                console.error('Error loading chord:', error);
+                return null;
+            }
+        }
+        
+        async function displayChord() {
+            const root = document.getElementById('root-select').value;
+            const type = document.getElementById('type-select').value;
+            const playButton = document.getElementById('play-button');
+            
+            if (root && type) {
+                let chordFileName;
+                if (type === 'major') {
+                    chordFileName = root;
+                } else if (type === 'minor') {
+                    chordFileName = root + 'm';
+                } else if (type === '7th') {
+                    chordFileName = root + '7';
+                }
+                
+                const chordFingering = await loadChordFromJSON(chordFileName);
+                if (chordFingering) {
+                    addFingerCircles(chordFingering);
+                    
+                    // Show play button and set up click handler
+                    playButton.style.display = 'block';
+                    playButton.onclick = () => playChord(chordFingering);
+                } else {
+                    clearFingerCircles();
+                    playButton.style.display = 'none';
+                    console.log('Chord not found:', chordFileName);
+                }
+            } else {
+                clearFingerCircles();
+                playButton.style.display = 'none';
+            }
+        }
+        
+        // Event listeners
+        document.getElementById('root-select').addEventListener('change', displayChord);
+        document.getElementById('type-select').addEventListener('change', displayChord);
+        
+        // Demo: Show C major on page load
+        window.addEventListener('load', async () => {
+            document.getElementById('root-select').value = 'C';
+            document.getElementById('type-select').value = 'major';
+            await displayChord();
+        });
+    </script>
+    </div>
+</body>
+</html>

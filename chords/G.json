@@ -1,0 +1,14 @@
+{
+  "name": "G Major",
+  "voicings": {
+    "r": {
+      "inversion": "root",
+      "fingering": {
+        "G": {"fret": 0, "text": "1"},
+        "C": {"fret": 2, "text": "5"},
+        "E": {"fret": 3, "text": "1"},
+        "A": {"fret": 2, "text": "3"}
+      }
+    }
+  }
+}

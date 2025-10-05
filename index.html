@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JEMT4 - Hawaiian Music Theory</title>
+    <script src="js/i18n.js"></script>
+    <script src="js/settings.js"></script>
+    <style>
+        /* ========================================
+           JEMT4 Theme - Root Variables
+           ======================================== */
+        :root {
+            /* Colors */
+            --bg-primary: #f5f5f5;
+            --bg-secondary: white;
+            --bg-accent: #f0f0f0;
+            
+            --text-primary: #333;
+            --text-secondary: #555;
+            --text-muted: #666;
+            
+            --border-light: #ccc;
+            --border-medium: #a0a0a0;
+            --border-dark: #333;
+            
+            --shadow-light: 0 2px 4px rgba(0,0,0,0.1);
+            --shadow-medium: 0 4px 8px rgba(0,0,0,0.15);
+            
+            /* Fretboard colors */
+            --fretboard-nut: #8B4513;
+            --fretboard-nut-stroke: #654321;
+            --fretboard-fret: #C0C0C0;
+            --fretboard-fret-stroke: #a0a0a0;
+            --fretboard-string: #FFD700;
+            --fretboard-bg: #DEB887;
+            --fretboard-marker: #8B4513;
+            
+            /* Spacing - Reduced for tighter layout */
+            --spacing-xs: 3px;
+            --spacing-sm: 6px;
+            --spacing-md: 10px;
+            --spacing-lg: 12px;
+            --spacing-xl: 16px;
+            --spacing-2xl: 24px;
+            --spacing-3xl: 32px;
+            
+            /* Border radius */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            
+            /* Typography */
+            --font-family: Arial, sans-serif;
+            --font-size-sm: 10px;
+            --font-size-base: 12px;
+            --font-size-md: 14px;
+            --font-size-lg: 16px;
+            --font-size-xl: 18px;
+            --font-size-2xl: 24px;
+            
+            /* Responsive breakpoints */
+            --breakpoint-mobile: 600px;
+            --breakpoint-tablet: 768px;
+            --breakpoint-desktop: 1024px;
+        }
+        
+        /* ========================================
+           Base Styles
+           ======================================== */
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+        
+        /* ========================================
+           Layout Components
+           ======================================== */
+        .content-wrapper {
+            margin: var(--spacing-lg);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-lg);
+        }
+        
+        .main-title {
+            text-align: center;
+            color: var(--text-primary);
+            font-size: var(--font-size-2xl);
+            font-weight: 600;
+            margin-bottom: var(--spacing-3xl);
+        }
+        
+        .instruments-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-2xl);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .instrument-card {
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-light);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .instrument-card:hover {
+            box-shadow: var(--shadow-medium);
+            transform: translateY(-2px);
+        }
+        
+        .instrument-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .instrument-label {
+            padding: var(--spacing-md);
+            text-align: center;
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            color: var(--text-primary);
+            background-color: var(--bg-secondary);
+        }
+        
+        
+        
+        /* ========================================
+           Content Wrapper
+           ======================================== */
+        .content-wrapper {
+            position: relative;
+        }
+        
+        /* ========================================
+           Header Row with Page Title & Settings
+           ======================================== */
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-3xl);
+            position: relative;
+            padding: var(--spacing-lg) 0;
+        }
+        
+        .page-title {
+            margin: 0;
+            color: var(--text-primary);
+            font-size: var(--font-size-xl);
+            font-weight: 600;
+        }
+        
+        .main-title {
+            margin-bottom: var(--spacing-3xl);
+            text-align: center;
+        }
+        
+        .settings-btn {
+            padding: var(--spacing-sm);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: var(--font-size-lg);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+        
+        .settings-btn:hover {
+            background-color: var(--bg-accent);
+            border-color: var(--text-secondary);
+            transform: rotate(45deg);
+        }
+        
+        /* Settings Modal */
+        .settings-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .settings-modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-lg);
+        }
+        
+        .settings-modal-content {
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-medium);
+            max-width: 500px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .settings-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-lg);
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        .settings-modal-title {
+            margin: 0;
+            color: var(--text-primary);
+            font-size: var(--font-size-xl);
+        }
+        
+        .settings-modal-close {
+            background: none;
+            border: none;
+            font-size: var(--font-size-2xl);
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .settings-modal-close:hover {
+            color: var(--text-primary);
+        }
+        
+        .settings-modal-body {
+            padding: var(--spacing-lg);
+        }
+        
+        .settings-section {
+            margin-bottom: var(--spacing-2xl);
+        }
+        
+        .settings-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .settings-section-title {
+            margin: 0 0 var(--spacing-sm) 0;
+            color: var(--text-primary);
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+        }
+        
+        .settings-section-description {
+            margin: 0 0 var(--spacing-md) 0;
+            color: var(--text-muted);
+            font-size: var(--font-size-md);
+        }
+        
+        .settings-radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+        
+        .settings-radio-label {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .settings-radio-label:hover {
+            background-color: var(--bg-accent);
+        }
+        
+        .settings-radio-label input[type="radio"] {
+            margin: 0;
+        }
+        
+        .settings-radio-text {
+            color: var(--text-primary);
+            font-size: var(--font-size-md);
+        }
+        
+        .settings-modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--spacing-md);
+            padding: var(--spacing-lg);
+            border-top: 1px solid var(--border-light);
+        }
+        
+        .settings-btn-cancel,
+        .settings-btn-save {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            font-family: var(--font-family);
+            font-size: var(--font-size-md);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .settings-btn-cancel {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+        
+        .settings-btn-cancel:hover {
+            background-color: var(--bg-accent);
+        }
+        
+        .settings-btn-save {
+            background-color: var(--text-primary);
+            color: var(--bg-secondary);
+            border-color: var(--text-primary);
+        }
+        
+        .settings-btn-save:hover {
+            background-color: var(--text-secondary);
+            border-color: var(--text-secondary);
+        }
+        
+        /* ========================================
+           Responsive Design
+           ======================================== */
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: var(--spacing-md);
+            }
+            
+            .header-row {
+                margin-bottom: var(--spacing-2xl);
+            }
+            
+            .page-title {
+                font-size: var(--font-size-lg);
+            }
+            
+            .instruments-grid {
+                gap: var(--spacing-lg);
+                max-width: 600px;
+            }
+            
+            .main-title {
+                font-size: var(--font-size-xl);
+            }
+            
+            .instrument-image {
+                height: 120px;
+            }
+            
+            .instrument-label {
+                font-size: var(--font-size-md);
+                padding: var(--spacing-sm);
+            }
+            
+            .settings-modal-content {
+                margin: var(--spacing-md);
+                max-height: 90vh;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .content-wrapper {
+                padding: var(--spacing-sm);
+            }
+            
+            .instruments-grid {
+                gap: var(--spacing-md);
+                max-width: 400px;
+            }
+            
+            .main-title {
+                font-size: var(--font-size-lg);
+                margin-bottom: var(--spacing-xl);
+            }
+            
+            .instrument-image {
+                height: 100px;
+            }
+            
+            .instrument-label {
+                font-size: var(--font-size-sm);
+                padding: var(--spacing-xs);
+            }
+        }
+        
+        
+        /* ========================================
+           Accessibility
+           ======================================== */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                transition: none !important;
+                animation: none !important;
+            }
+        }
+        
+        /* Focus styles for keyboard navigation */
+        .fretboard-container:focus-within {
+            outline: 2px solid var(--text-secondary);
+            outline-offset: 2px;
+        }
+        
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            :root {
+                --border-light: #000;
+                --text-muted: #000;
+            }
+        }
+    </style>
+</head>
+<body>
+    <img src="images/JEMT4Header.png" alt="JEMT4 - Hawaiian Music Theory" style="width: 100%; height: auto; display: block; margin: 0; padding: 0;">
+    
+    <div class="content-wrapper">
+        <div class="header-row">
+            <h2 class="page-title" data-i18n="navigation.chooseInstrument">E Koho i Kāu Pila Kani</h2>
+            <!-- Settings gear will be added here by settings.js -->
+        </div>
+        
+        <h1 class="main-title" data-i18n="navigation.chooseInstrument">E Koho i Kāu Pila Kani</h1>
+        
+        <div class="instruments-grid">
+            <a href="ukulele/" class="instrument-card">
+                <img src="images/ukulele.png" data-i18n-alt="instruments.ukulele" alt="ʻUkulele" class="instrument-image">
+                <div class="instrument-label" data-i18n="instruments.ukulele">ʻUkulele</div>
+            </a>
+            
+            <a href="guitar/" class="instrument-card">
+                <img src="images/guitar.png" data-i18n-alt="instruments.guitar" alt="Guitar" class="instrument-image">
+                <div class="instrument-label" data-i18n="instruments.guitar">Guitar</div>
+            </a>
+            
+            <a href="ac_bass/" class="instrument-card">
+                <img src="images/ac_bass.png" data-i18n-alt="instruments.acousticBass" alt="Acoustic Bass" class="instrument-image">
+                <div class="instrument-label" data-i18n="instruments.acousticBass">Acoustic Bass</div>
+            </a>
+            
+            <a href="el_bass/" class="instrument-card">
+                <img src="images/el_bass.png" data-i18n-alt="instruments.electricBass" alt="Electric Bass" class="instrument-image">
+                <div class="instrument-label" data-i18n="instruments.electricBass">Electric Bass</div>
+            </a>
+        </div>
+    </div>
+
+    </div>
+</body>
+</html>

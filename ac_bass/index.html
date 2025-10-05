@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JEMT4 - Acoustic Bass</title>
+    <script src="../js/i18n.js"></script>
+    <style>
+        /* ========================================
+           JEMT4 Theme - Root Variables
+           ======================================== */
+        :root {
+            /* Colors */
+            --bg-primary: #f5f5f5;
+            --bg-secondary: white;
+            --bg-accent: #f0f0f0;
+            
+            --text-primary: #333;
+            --text-secondary: #555;
+            --text-muted: #666;
+            
+            --border-light: #ccc;
+            --border-medium: #a0a0a0;
+            --border-dark: #333;
+            
+            --shadow-light: 0 2px 4px rgba(0,0,0,0.1);
+            --shadow-medium: 0 4px 8px rgba(0,0,0,0.15);
+            
+            /* Spacing - Reduced for tighter layout */
+            --spacing-xs: 3px;
+            --spacing-sm: 6px;
+            --spacing-md: 10px;
+            --spacing-lg: 12px;
+            --spacing-xl: 16px;
+            
+            /* Border radius */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            
+            /* Typography */
+            --font-family: Arial, sans-serif;
+            --font-size-sm: 10px;
+            --font-size-base: 12px;
+            --font-size-md: 14px;
+            --font-size-lg: 16px;
+            --font-size-xl: 18px;
+        }
+        
+        /* ========================================
+           Base Styles
+           ======================================== */
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-family);
+            margin: 0;
+            padding: var(--spacing-lg);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--bg-secondary);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-light);
+        }
+        
+        h1 {
+            text-align: center;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xl);
+            font-size: var(--font-size-xl);
+            font-weight: 600;
+        }
+        
+        .content {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: var(--font-size-xl);
+        }
+        
+        /* ========================================
+           Header Row with Page Title & Settings
+           ======================================== */
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-xl);
+            position: relative;
+            padding: var(--spacing-md) 0;
+        }
+        
+        .page-title {
+            margin: 0;
+            color: var(--text-primary);
+            font-size: var(--font-size-xl);
+            font-weight: 600;
+        }
+        
+        .settings-btn {
+            padding: var(--spacing-sm);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: var(--font-size-lg);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+        
+        .settings-btn:hover {
+            background-color: var(--bg-accent);
+            border-color: var(--text-secondary);
+            transform: rotate(45deg);
+        }
+        
+        /* ========================================
+           Responsive Design
+           ======================================== */
+        @media (max-width: 600px) {
+            body {
+                padding: var(--spacing-sm);
+            }
+            
+            .header-row {
+                margin-bottom: var(--spacing-lg);
+            }
+            
+            .page-title {
+                font-size: var(--font-size-lg);
+            }
+            
+            .container {
+                padding: var(--spacing-lg);
+            }
+            
+            h1 {
+                font-size: var(--font-size-lg);
+                margin-bottom: var(--spacing-lg);
+            }
+            
+            .content {
+                font-size: var(--font-size-md);
+            }
+        }
+        
+        /* ========================================
+           Accessibility
+           ======================================== */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                transition: none !important;
+                animation: none !important;
+            }
+        }
+        
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            :root {
+                --border-light: #000;
+                --text-muted: #000;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-row">
+            <h2 class="page-title" data-i18n="instruments.acousticBass">Pila Nui</h2>
+            <!-- Settings gear will be added here by settings.js -->
+        </div>
+        
+        <h1 data-i18n="instruments.acousticBass">Pila Nui</h1>
+        <div class="content">
+            <p><span data-i18n="instruments.acousticBass">Pila Nui</span> <span data-i18n="content.contentComingSoon">content coming soon...</span></p>
+        </div>
+    </div>
+</body>
+</html>

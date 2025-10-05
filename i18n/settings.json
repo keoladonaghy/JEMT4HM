@@ -1,0 +1,48 @@
+{
+  "en": {
+    "title": "Settings",
+    "language": {
+      "title": "Language",
+      "description": "Choose your preferred language for the interface",
+      "english": "English",
+      "hawaiian": "'Ōlelo Hawaiʻi"
+    },
+    "primaryInstrument": {
+      "title": "Primary Instrument",
+      "description": "Select your main instrument for quick access",
+      "ukulele": "ʻUkulele",
+      "guitar": "Guitar",
+      "acousticBass": "Acoustic Bass",
+      "electricBass": "Electric Bass",
+      "none": "No Preference"
+    },
+    "buttons": {
+      "save": "Save Settings",
+      "cancel": "Cancel",
+      "close": "Close"
+    }
+  },
+  "haw": {
+    "title": "Nā Hoʻonohonoho",
+    "language": {
+      "title": "ʻŌlelo",
+      "description": "Koho i kāu ʻōlelo makemake no ka ʻaoʻao",
+      "english": "Pelekania",
+      "hawaiian": "'Ōlelo Hawaiʻi"
+    },
+    "primaryInstrument": {
+      "title": "Pila Kani Nui",
+      "description": "Wae i kāu pila kani nui no ka hiki wikiwiki",
+      "ukulele": "ʻUkulele",
+      "guitar": "Kika",
+      "acousticBass": "Pila Nui",
+      "electricBass": "Kīkā Leo Ha'aha'a Uila",
+      "none": "ʻAʻohe Koho"
+    },
+    "buttons": {
+      "save": "Mālama i Nā Hoʻonohonoho",
+      "cancel": "Hoʻōki",
+      "close": "Pani"
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "en": {
+    "navigation": {
+      "chooseInstrument": "Choose Your Instrument",
+      "playChord": "Play Chord",
+      "newGame": "New Game"
+    },
+    "instruments": {
+      "ukulele": "ʻUkulele",
+      "guitar": "Guitar", 
+      "acousticBass": "Acoustic Bass",
+      "electricBass": "Electric Bass"
+    },
+    "chords": {
+      "root": "Root:",
+      "type": "Type:",
+      "selectRoot": "Select Root",
+      "selectType": "Select Type",
+      "major": "Major",
+      "minor": "Minor",
+      "seventh": "7th"
+    },
+    "content": {
+      "contentComingSoon": "content coming soon..."
+    }
+  },
+  "haw": {
+    "navigation": {
+      "chooseInstrument": "E Koho i Kāu Pila Kani",
+      "playChord": "Ho‘okani",
+      "newGame": "Pāʻani Hou"
+    },
+    "instruments": {
+      "ukulele": "ʻUkulele",
+      "guitar": "Kīkā",
+      "acousticBass": "Pila Nui", 
+      "electricBass": "Kīkā Leo Ha'aha'a Uila"
+    },
+    "chords": {
+      "root": "Mole:",
+      "type": "ʻAno:",
+      "selectRoot": "Koho i ka Kumu",
+      "selectType": "Koho i ka ʻAno",
+      "major": "Mēkia",
+      "minor": "Māina",
+      "seventh": "'Ehiku Emi"
+    },
+    "content": {
+      "contentComingSoon": "E hiki koke mai ana..."
+    }
+  }
+}

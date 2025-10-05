@@ -1,0 +1,52 @@
+{
+  "en": {
+    "project": {
+      "title": "JEMT4HM: Just Enough Music Theory For Hawaiian Musicians",
+      "shortTitle": "JEMT4HM"
+    },
+    "language": {
+      "english": "English",
+      "hawaiian": "'Ōlelo Hawaiʻi",
+      "switchLanguage": "Language"
+    },
+    "buttons": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "close": "Close",
+      "ok": "OK",
+      "yes": "Yes",
+      "no": "No"
+    },
+    "states": {
+      "loading": "Loading...",
+      "error": "Error",
+      "success": "Success",
+      "comingSoon": "coming soon..."
+    }
+  },
+  "haw": {
+    "project": {
+      "title": "JEMT4HM: Ke Kālaikuhi e Lawa Ai Ka Mea Ho'okani Pila a Hīmeni Hawai'i",
+      "shortTitle": "JEMT4HM"
+    },
+    "language": {
+      "english": "Pelekania",
+      "hawaiian": "'Ōlelo Hawaiʻi",
+      "switchLanguage": "ʻŌlelo"
+    },
+    "buttons": {
+      "save": "Mālama",
+      "cancel": "Hoʻōki",
+      "close": "Pani",
+      "ok": "‘Oia",
+      "yes": "‘Ae",
+      "no": "‘A'ole"
+    },
+    "states": {
+      "loading": "Ke ho'ouka 'ia nei...",
+      "error": "Ku‘ia",
+      "success": "Ua Holopono",
+      "comingSoon": "E mākaukau koke mai ana..."
+    }
+  }
+}
